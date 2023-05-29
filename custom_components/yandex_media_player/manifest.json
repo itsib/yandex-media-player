@@ -2,7 +2,7 @@
   "codeowners": [
     "@itsib"
   ],
-  "config_flow": false,
+  "config_flow": true,
   "documentation": "https://github.com/itsib/yandex-media-player",
   "domain": "yandex_media_player",
   "iot_class": "cloud_polling",
