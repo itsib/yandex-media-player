@@ -1,0 +1,57 @@
+:host {
+  --mdc-icon-button-size: 40px;
+  --mdc-icon-size: 28px;
+  --primary-text-color: var(--ymp-text-primary, --primary-text-color);
+
+  font-family: var(--paper-font-body1_-_font-family);
+  -webkit-font-smoothing: var(--paper-font-body1_-_-webkit-font-smoothing);
+  font-size: var(--paper-font-body1_-_font-size);
+  font-weight: var(--paper-font-body1_-_font-weight);
+  line-height: var(--paper-font-body1_-_line-height);
+  color: var(--primary-text-color);
+}
+
+.media-player-card {
+  position: relative;
+  overflow: hidden;
+
+  ymp-background {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: absolute;
+    z-index: 1;
+  }
+
+  .content {
+    max-width: 280px;
+    margin-right: auto;
+    padding: 16px 16px 0;
+    position: relative;
+    z-index: 2;
+
+    .media-info {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+
+      .device-and-track {
+        max-width: calc(100% - 50px);
+
+        :last-child {
+          margin-top: 6px;
+        }
+      }
+    }
+
+    ymp-volume-controls {
+      width: 100%;
+      margin-top: 18px;
+    }
+
+    ymp-media-controls {
+      margin-top: 12px;
+    }
+  }
+}

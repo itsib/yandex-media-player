@@ -1,0 +1,14 @@
+:host {
+  --mdc-icon-button-size: 52px;
+  --mdc-icon-size: 36px;
+  --divider-color: #00000000;
+
+  margin-right: 14px;
+  padding: 0;
+  text-align: center;
+  color: var(--ymp-text-primary);
+  background: transparent;
+  border: none;
+  position: relative;
+  display: block;
+}

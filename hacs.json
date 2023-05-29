@@ -1,0 +1,6 @@
+{
+    "name": "Yandex Media Player",
+    "country": ["RU"],
+    "render_readme": true,
+    "homeassistant": "2022.11.5"
+}

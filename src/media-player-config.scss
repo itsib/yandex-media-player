@@ -1,0 +1,16 @@
+:host {
+  --mdc-list-vertical-padding: 0px;
+  --mdc-typography-body2-font-size: 13px;
+}
+
+.media-player-config {
+  padding-right: 20px;
+}
+
+@media only screen and (max-width: 1200px) {
+
+  .media-player-config {
+    margin-bottom: 20px;
+    padding-right: 0;
+  }
+}

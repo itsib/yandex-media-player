@@ -1,0 +1,70 @@
+:host {
+  --ymp-inned-shadow: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+
+  font-weight: 400;
+  opacity: 0.8;
+  font-size: 13px;
+  line-height: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+  position: relative;
+
+  .container {
+    animation-duration: 0s;
+  }
+
+  .hold-line {
+    visibility: visible;
+  }
+
+  .move-line-wrap {
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    -webkit-mask-image: var(--ymp-inned-shadow);
+    position: absolute;
+    animation-duration: inherit;
+    display: none;
+
+    .move-line {
+      min-width: fit-content;
+      width: fit-content;
+      white-space: nowrap;
+      visibility: visible;
+      animation: 0s linear 0s infinite normal none running slide;
+      animation-duration: inherit;
+    }
+  }
+
+  .move-on {
+
+    .hold-line {
+      visibility: hidden;
+    }
+
+    .move-line-wrap {
+      display: block;
+    }
+  }
+}
+
+@keyframes slide {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@-moz-keyframes slide {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}

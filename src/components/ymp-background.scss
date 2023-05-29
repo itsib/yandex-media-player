@@ -1,0 +1,40 @@
+:host {
+  transition: filter 0.8s ease 0s;
+  display: block;
+
+  .fill {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--ymp-background-color);
+    transition: background-color 0.8s ease 0s;
+    position: absolute;
+  }
+
+  .image {
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: var(--ymp-media-image-width);
+    background-color: var(--ymp-background-color);
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: var(--ymp-media-image);
+    opacity: 1;
+    transition: width 0.8s ease 0s, background-image 0.8s ease 0s, background-color 0.8s ease 0s, background-size 0.8s ease 0s, opacity 0.8s linear 0.8s;
+    position: absolute;
+  }
+
+  .gradient {
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: var(--ymp-media-image-width);
+    background-image: var(--ymp-media-horizontal-gradient);
+    opacity: 1;
+    transition: width 0.8s ease 0s, background-image 0.8s ease 0s, opacity 0.8s linear 0.8s;
+    position: absolute;
+  }
+}

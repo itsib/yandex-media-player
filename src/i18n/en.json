@@ -1,0 +1,25 @@
+{
+  "application": {
+    "name": "Yandex Media Player",
+    "description": "Media player for Yandex stations. With additional station management capabilities."
+  },
+  "config": {
+    "name": {
+      "label": "Displayed Name",
+      "helper": ""
+    },
+    "devices": {
+      "label": "Choose Device",
+      "helper": "Devices that the media player will control."
+    }
+  },
+  "media": {
+    "no_name": "The media track has no name",
+    "idle": "Nothing is played"
+  },
+  "tooltip": {
+    "like": "I Like",
+    "dislike": "I Don't Like",
+    "say_track_name": "Say the name of the track or don't"
+  }
+}
