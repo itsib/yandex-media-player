@@ -3,6 +3,7 @@ import styles from './media-player-card.scss';
 import { HomeAssistant, LovelaceCard, LovelaceCardEditor, MediaPlayerCardConfig, MediaPlayerDeviceInfo, MediaPlayerEntityState, MediaPlayerState } from 'types';
 import { findDevices } from './utils/find-devices';
 import { t } from 'i18n';
+import { DEMO_STATE } from './utils/demo-state';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -15,6 +16,10 @@ export class MediaPlayerCard extends LitElement implements LovelaceCard {
    * Home assistant instance
    */
   hass!: HomeAssistant;
+  /**
+   * Lovelace edit mode state (If not defined, then the card is not yet placed on the panel)
+   */
+  editMode?: boolean;
   /**
    * Configuration model
    * @private
@@ -57,6 +62,7 @@ export class MediaPlayerCard extends LitElement implements LovelaceCard {
 
   static properties = {
     hass: { attribute: false },
+    editMode: { attribute: false },
     _config: { state: true },
     _devices: { state: true },
     _deviceId: { state: true, type: String },
@@ -117,7 +123,7 @@ export class MediaPlayerCard extends LitElement implements LovelaceCard {
 
     return html`
       <ha-card class="media-player-card">
-        <ymp-background .image="${this._mediaImage ? this.hass.hassUrl(this._mediaImage) : undefined}"></ymp-background>
+        <ymp-background .image="${this._mediaImage ? this.hass.hassUrl(this._mediaImage) : undefined}" .editMode="${this.editMode}"></ymp-background>
         <div class="content">
           <div class="media-info">
             <ymp-station-logo .entityId=${this._entityId} .hass=${this.hass}></ymp-station-logo>
@@ -166,6 +172,9 @@ export class MediaPlayerCard extends LitElement implements LovelaceCard {
   }
 
   private get _entityState(): MediaPlayerEntityState | undefined {
+    if (this.editMode === undefined && (!this._entityId || !this.hass)) {
+      return DEMO_STATE;
+    }
     return this.hass && this._entityId ? (this.hass.states[this._entityId] as MediaPlayerEntityState) : undefined;
   }
 

@@ -27,13 +27,12 @@
     -webkit-mask-image: var(--ymp-inned-shadow);
     position: absolute;
     animation-duration: inherit;
-    display: none;
+    visibility: hidden;
 
     .move-line {
       min-width: fit-content;
       width: fit-content;
       white-space: nowrap;
-      visibility: visible;
       animation: 0s linear 0s infinite normal none running slide;
       animation-duration: inherit;
     }
@@ -46,7 +45,7 @@
     }
 
     .move-line-wrap {
-      display: block;
+      visibility: visible;
     }
   }
 }

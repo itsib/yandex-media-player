@@ -5,7 +5,6 @@ import { debounce } from '../utils/debounce';
 import { hexToRgba } from '../utils/hex-to-rgba';
 
 const NARROW_WIDTH = 400;
-const STYLE_ELEMENT_ID = '#ymp-global-styles';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -18,6 +17,10 @@ export class YmpBackground extends LitElement {
    * Media background image
    */
   image?: string;
+  /**
+   * Lovelace edit mode state (If not defined, then the card is not yet placed on the panel)
+   */
+  editMode?: boolean;
   /**
    * The background color calculated from the picture
    */
@@ -56,6 +59,7 @@ export class YmpBackground extends LitElement {
 
   static properties = {
     image: { attribute: true, type: String },
+    editMode: { attribute: true, type: Boolean },
     _backgroundColor: { state: true, type: String },
     _foregroundColor: { state: true, type: String },
     _textPrimaryColor: { state: true, type: String },
@@ -83,6 +87,7 @@ export class YmpBackground extends LitElement {
   updated(changedProps: PropertyValues) {
     if (
       changedProps.has('image') ||
+      changedProps.has('editMode') ||
       changedProps.has('_cardHeight') ||
       changedProps.has('_backgroundColor') ||
       changedProps.has('_foregroundColor') ||
@@ -90,14 +95,14 @@ export class YmpBackground extends LitElement {
       changedProps.has('_textSecondaryColor') ||
       changedProps.has('_isNarrow')
     ) {
-      this._updateGlobalCssVars();
+      this._updateCssVars();
     }
   }
 
   connectedCallback(): void {
     super.connectedCallback();
 
-    this._updateGlobalCssVars();
+    this._updateCssVars();
 
     this.updateComplete.then(() => this._attachObserver());
   }
@@ -108,8 +113,6 @@ export class YmpBackground extends LitElement {
     if (this._resizeObserver) {
       this._resizeObserver.disconnect();
     }
-
-    this._removeGlobalCssVars();
   }
 
   render(): TemplateResult {
@@ -130,27 +133,9 @@ export class YmpBackground extends LitElement {
     this._isNarrow = card.offsetWidth < NARROW_WIDTH;
   }
 
-  private _getStyleElement(): HTMLStyleElement {
-    let style: HTMLStyleElement | undefined;
-    for (let i = document.styleSheets.length - 1; i >= 0; i--) {
-      const node = document.styleSheets.item(i)?.ownerNode as HTMLStyleElement | null;
-      if (node?.id === STYLE_ELEMENT_ID) {
-        style = node;
-        break;
-      }
-    }
-
-    if (!style) {
-      style = document.createElement('style') as HTMLStyleElement;
-      style.id = STYLE_ELEMENT_ID;
-      document.head.appendChild(style);
-    }
-    return style;
-  }
-
-  private _updateGlobalCssVars(): void {
-    const style = this._getStyleElement();
-    if (!style.sheet) {
+  private _updateCssVars(): void {
+    const parent = this.parentNode as HTMLElement | null;
+    if (!parent) {
       return;
     }
 
@@ -160,35 +145,17 @@ export class YmpBackground extends LitElement {
     const textPrimaryColor = this._textPrimaryColor ?? 'var(--primary-text-color)';
     const textSecondaryColor = this._textSecondaryColor ?? 'var(--primary-text-color)';
 
-    const rule = `
-      body {
-        --ymp-media-image: url(${this.image ?? this._fallbackImage});
-        --ymp-media-image-width: ${this._cardHeight || 0}px;
-        --ymp-media-horizontal-gradient: linear-gradient(to right, ${backgroundColor}, transparent);
-        --ymp-media-vertical-gradient: linear-gradient(to top, ${backgroundColor} 0%, ${backgroundColor} 15%, transparent 100%);
-        
-        --ymp-accent-color: #ff9800;
-        --ymp-disabled-color: #6e6e6e;
-        --ymp-background-color: ${backgroundColor};
-        --ymp-background-alfa-color: ${backgroundAlfaColor};
-        --ymp-foreground-color: ${foregroundColor};
-        --ymp-text-primary: ${textPrimaryColor};
-        --ymp-text-secondary: ${textSecondaryColor};
-      }
-    `;
-
-    if (style.sheet.cssRules.length) {
-      style.sheet.deleteRule(0);
-    }
-
-    style.sheet.insertRule(rule, 0);
-  }
-
-  private _removeGlobalCssVars(): void {
-    const style = this._getStyleElement();
-    if (style.sheet?.cssRules.length) {
-      style.sheet.deleteRule(0);
-    }
+    parent.style.setProperty('--ymp-media-image', `url(${this.image ?? this._fallbackImage})`);
+    parent.style.setProperty('--ymp-media-image-width', `${this._cardHeight || 0}px`);
+    parent.style.setProperty('--ymp-media-horizontal-gradient', `linear-gradient(to right, ${backgroundColor}, transparent)`);
+    parent.style.setProperty('--ymp-media-vertical-gradient', `linear-gradient(to top, ${backgroundColor} 0%, ${backgroundColor} 15%, transparent 100%)`);
+    parent.style.setProperty('--ymp-accent-color', `#ff9800`);
+    parent.style.setProperty('--ymp-disabled-color', `#6e6e6e`);
+    parent.style.setProperty('--ymp-background-color', `${backgroundColor}`);
+    parent.style.setProperty('--ymp-background-alfa-color', `${backgroundAlfaColor}`);
+    parent.style.setProperty('--ymp-foreground-color', `${foregroundColor}`);
+    parent.style.setProperty('--ymp-text-primary', `${textPrimaryColor}`);
+    parent.style.setProperty('--ymp-text-secondary', `${textSecondaryColor}`);
   }
 
   private async _computeColors(): Promise<void> {
@@ -209,7 +176,7 @@ export class YmpBackground extends LitElement {
       this._textPrimaryColor = undefined;
       this._textSecondaryColor = undefined;
     }
-    this._updateGlobalCssVars();
+    this._updateCssVars();
   }
 
   private async _attachObserver(): Promise<void> {

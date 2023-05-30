@@ -16,7 +16,9 @@
   "media": {
     "no_source": "Select a Yandex station",
     "no_played": "Nothing is being played now",
-    "no_name": "The media track has no name"
+    "no_name": "The media track has no name",
+    "demo_media_artist": "Your favorite artist",
+    "demo_media_title": "The name of your most favorite song"
   },
   "tooltip": {
     "like": "I Like",
