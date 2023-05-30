@@ -1,6 +1,7 @@
 import { HassEntityState, HassEntityStateAttributes, LovelaceCardConfig } from 'types';
 
 export interface MediaPlayerCardConfig extends LovelaceCardConfig {
+  color: string;
   devices: string[];
 }
 

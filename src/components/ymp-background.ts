@@ -22,6 +22,10 @@ export class YmpBackground extends LitElement {
    */
   editMode?: boolean;
   /**
+   * Accent color
+   */
+  color?: string;
+  /**
    * The background color calculated from the picture
    */
   private _backgroundColor?: string;
@@ -60,6 +64,7 @@ export class YmpBackground extends LitElement {
   static properties = {
     image: { attribute: true, type: String },
     editMode: { attribute: true, type: Boolean },
+    color: { attribute: true, type: String },
     _backgroundColor: { state: true, type: String },
     _foregroundColor: { state: true, type: String },
     _textPrimaryColor: { state: true, type: String },
@@ -88,6 +93,7 @@ export class YmpBackground extends LitElement {
     if (
       changedProps.has('image') ||
       changedProps.has('editMode') ||
+      changedProps.has('color') ||
       changedProps.has('_cardHeight') ||
       changedProps.has('_backgroundColor') ||
       changedProps.has('_foregroundColor') ||
@@ -144,12 +150,13 @@ export class YmpBackground extends LitElement {
     const foregroundColor = this._foregroundColor ?? 'var(--primary-text-color)';
     const textPrimaryColor = this._textPrimaryColor ?? 'var(--primary-text-color)';
     const textSecondaryColor = this._textSecondaryColor ?? 'var(--primary-text-color)';
+    const accentColor = this.color === 'orange' ? '#ff9800' : 'var(--primary-color)';
 
     parent.style.setProperty('--ymp-media-image', `url(${this.image ?? this._fallbackImage})`);
     parent.style.setProperty('--ymp-media-image-width', `${this._cardHeight || 0}px`);
     parent.style.setProperty('--ymp-media-horizontal-gradient', `linear-gradient(to right, ${backgroundColor}, transparent)`);
     parent.style.setProperty('--ymp-media-vertical-gradient', `linear-gradient(to top, ${backgroundColor} 0%, ${backgroundColor} 15%, transparent 100%)`);
-    parent.style.setProperty('--ymp-accent-color', `#ff9800`);
+    parent.style.setProperty('--ymp-accent-color', accentColor); // #ff9800
     parent.style.setProperty('--ymp-disabled-color', `#6e6e6e`);
     parent.style.setProperty('--ymp-background-color', `${backgroundColor}`);
     parent.style.setProperty('--ymp-background-alfa-color', `${backgroundAlfaColor}`);

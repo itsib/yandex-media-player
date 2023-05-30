@@ -124,12 +124,12 @@ const colorGenerator = (colors: Color[]): [string, string, string, string] => {
   const amount = bgHueDeg > 240 ? bgHueDeg - 240 : bgHueDeg > 120 ? bgHueDeg - 120 : bgHueDeg;
   const ratio = Math.abs(60 - amount) / 60;
   const threshold = 0.4 * ratio + 0.4;
-  console.debug('Background color');
-  console.debug('hue (turn):', bgHueTurn);
-  console.debug('hue (deg):', bgHueDeg);
-  console.debug('lightness', bgLightness);
-  console.debug('saturation', bgSaturation);
-  console.debug('threshold', threshold);
+  // console.debug('Background color');
+  // console.debug('hue (turn):', bgHueTurn);
+  // console.debug('hue (deg):', bgHueDeg);
+  // console.debug('lightness', bgLightness);
+  // console.debug('saturation', bgSaturation);
+  // console.debug('threshold', threshold);
 
   // eslint-disable-next-line prettier/prettier
   return [

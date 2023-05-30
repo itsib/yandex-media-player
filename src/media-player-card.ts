@@ -53,7 +53,7 @@ export class MediaPlayerCard extends LitElement implements LovelaceCard {
 
   public static getStubConfig(): Omit<MediaPlayerCardConfig, 'type'> {
     return {
-      name: '',
+      color: 'default',
       devices: [],
     };
   }
@@ -123,7 +123,7 @@ export class MediaPlayerCard extends LitElement implements LovelaceCard {
 
     return html`
       <ha-card class="media-player-card">
-        <ymp-background .image="${this._mediaImage ? this.hass.hassUrl(this._mediaImage) : undefined}" .editMode="${this.editMode}"></ymp-background>
+        <ymp-background .image="${this._mediaImage ? this.hass.hassUrl(this._mediaImage) : undefined}" .editMode="${this.editMode}" .color="${this._config.color}"></ymp-background>
         <div class="content">
           <div class="media-info">
             <ymp-station-logo .entityId=${this._entityId} .hass=${this.hass}></ymp-station-logo>

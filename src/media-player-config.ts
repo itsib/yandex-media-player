@@ -6,6 +6,23 @@ import { t } from 'i18n';
 
 const SCHEMA: HaFormSchema[] = [
   {
+    name: 'color',
+    default: 'default',
+    required: true,
+    selector: {
+      select: {
+        multiple: false,
+        custom_value: false,
+        mode: 'dropdown',
+        options: [
+          { value: 'default', label: 'options.primary' },
+          { value: 'orange', label: 'options.orange' },
+        ],
+        translation_key: 'config.color',
+      },
+    },
+  },
+  {
     name: 'devices',
     default: 'daily',
     required: true,
@@ -59,13 +76,13 @@ export class MediaPlayerConfig extends LitElement implements LovelaceCardEditor 
       <slot></slot>
       <div class="media-player-config">
         <ha-form
-          .hass=${this.hass}
-          .data=${this.config}
-          .schema=${SCHEMA}
-          .computeLabel=${this._computeLabel}
-          .computeHelper=${this._computeHelper}
-          .localizeValue=${this._localizeValue}
-          @value-changed=${this._valueChanged}
+          .hass="${this.hass}"
+          .data="${this.config}"
+          .schema="${SCHEMA}"
+          .computeLabel="${this._computeLabel}"
+          .computeHelper="${this._computeHelper}"
+          .localizeValue="${this._localizeValue}"
+          @value-changed="${this._valueChanged}"
         >
         </ha-form>
       </div>
@@ -80,8 +97,8 @@ export class MediaPlayerConfig extends LitElement implements LovelaceCardEditor 
     return t(`config.${schema.name}.helper`);
   }
 
-  private _localizeValue(_: string): string {
-    return 'Localized value';
+  private _localizeValue(key: string): string {
+    return t(key);
   }
 
   private _valueChanged(event: ValueChangeEvent<MediaPlayerCardConfig>): void {

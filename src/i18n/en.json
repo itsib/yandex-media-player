@@ -4,9 +4,13 @@
     "description": "Media player for Yandex stations. With additional station management capabilities."
   },
   "config": {
-    "name": {
-      "label": "Displayed Name",
-      "helper": ""
+    "color": {
+      "label": "Accent color",
+      "helper": "The color of the volume setting and the progress bar.",
+      "options": {
+        "default": "As in Home Assistant",
+        "orange": "Orange \u00A0 \u00A0 \uD83C\uDF4A"
+      }
     },
     "devices": {
       "label": "Choose Device",
