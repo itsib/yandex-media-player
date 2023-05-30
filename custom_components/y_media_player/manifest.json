@@ -3,11 +3,11 @@
     "@itsib"
   ],
   "config_flow": true,
-  "documentation": "https://github.com/itsib/yandex-media-player",
-  "domain": "yandex_media_player",
+  "documentation": "https://github.com/itsib/y-media-player",
+  "domain": "y_media_player",
   "iot_class": "cloud_polling",
   "loggers": [
-    "yandex_media_player"
+    "y_media_player"
   ],
   "name": "Yandex Media Player",
   "requirements": [],

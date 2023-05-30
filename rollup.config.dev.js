@@ -8,7 +8,7 @@ import clean from 'rollup-plugin-delete';
 import litScss from './rollup-plugins/lit-scss';
 
 const plugins = [
-  clean({ targets: 'custom_components/yandex_media_player/lovelace/*' }),
+  clean({ targets: 'custom_components/y_media_player/lovelace/*' }),
   resolve({ browser: true }),
   commonjs(),
   typescript(),
@@ -22,7 +22,7 @@ const plugins = [
     exclude: 'node_modules/**',
   }),
   copy({
-    targets: [{ src: 'src/images/**/*', dest: 'custom_components/yandex_media_player/lovelace' }],
+    targets: [{ src: 'src/images/**/*', dest: 'custom_components/y_media_player/lovelace' }],
   }),
 ];
 
@@ -30,7 +30,7 @@ export default [
   {
     input: 'src/media-player.ts',
     output: {
-      dir: 'custom_components/yandex_media_player/lovelace',
+      dir: 'custom_components/y_media_player/lovelace',
       format: 'es',
     },
     plugins: [...plugins],

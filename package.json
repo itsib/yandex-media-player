@@ -1,5 +1,5 @@
 {
-  "name": "yandex-media-player",
+  "name": "y-media-player",
   "version": "0.0.2",
   "description": "Media Player for Yandex station and home assistant lovelace",
   "keywords": [
@@ -14,7 +14,7 @@
   ],
   "main": "src/main.js",
   "module": "src/main.js",
-  "repository": "git@github.com:itsib/yandex-media-player.git",
+  "repository": "git@github.com:itsib/y-media-player.git",
   "author": "Sergey <itsib.su@gmail.com>",
   "license": "MIT",
   "scripts": {

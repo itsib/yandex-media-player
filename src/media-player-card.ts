@@ -6,7 +6,7 @@ import { t } from 'i18n';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'yandex-media-player': MediaPlayerCard;
+    'y-media-player': MediaPlayerCard;
   }
 }
 
@@ -174,11 +174,11 @@ export class MediaPlayerCard extends LitElement implements LovelaceCard {
   }
 }
 
-(window as any).customElements.define('yandex-media-player', MediaPlayerCard);
+(window as any).customElements.define('y-media-player', MediaPlayerCard);
 
 (window as any).customCards = (window as any).customCards || [];
 (window as any).customCards.push({
-  type: 'yandex-media-player',
+  type: 'y-media-player',
   name: t('application.name'),
   preview: false,
   description: t('application.description'),
