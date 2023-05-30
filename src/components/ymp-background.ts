@@ -50,6 +50,8 @@ export class YmpBackground extends LitElement {
    */
   private _resizeObserver?: ResizeObserver;
 
+  private _fallbackImage = '/y-media-player/no-image.png';
+
   static styles = styles;
 
   static properties = {
@@ -94,6 +96,8 @@ export class YmpBackground extends LitElement {
 
   connectedCallback(): void {
     super.connectedCallback();
+
+    this._updateGlobalCssVars();
 
     this.updateComplete.then(() => this._attachObserver());
   }
@@ -158,7 +162,7 @@ export class YmpBackground extends LitElement {
 
     const rule = `
       body {
-        --ymp-media-image: ${this.image ? `url(${this.image})` : 'none'};
+        --ymp-media-image: url(${this.image ?? this._fallbackImage});
         --ymp-media-image-width: ${this._cardHeight || 0}px;
         --ymp-media-horizontal-gradient: linear-gradient(to right, ${backgroundColor}, transparent);
         --ymp-media-vertical-gradient: linear-gradient(to top, ${backgroundColor} 0%, ${backgroundColor} 15%, transparent 100%);
@@ -205,6 +209,7 @@ export class YmpBackground extends LitElement {
       this._textPrimaryColor = undefined;
       this._textSecondaryColor = undefined;
     }
+    this._updateGlobalCssVars();
   }
 
   private async _attachObserver(): Promise<void> {

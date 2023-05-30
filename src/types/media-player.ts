@@ -1,23 +1,7 @@
 import { HassEntityState, HassEntityStateAttributes, LovelaceCardConfig } from 'types';
 
-export enum CardSize {
-  SM = 'sm',
-  MD = 'md',
-}
-
 export interface MediaPlayerCardConfig extends LovelaceCardConfig {
   devices: string[];
-}
-
-export interface MediaPlayerCardState {
-  icon?: string;
-  image?: string;
-  entity?: string;
-  mediaTitle?: string;
-  mediaDescription?: string;
-  volume?: number;
-  isMuted?: boolean;
-  state?: MediaPlayerState;
 }
 
 export interface MediaPlayerDeviceInfo {

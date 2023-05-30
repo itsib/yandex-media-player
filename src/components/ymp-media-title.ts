@@ -1,5 +1,5 @@
 import { html, LitElement, PropertyValues, TemplateResult } from 'lit';
-import { MediaPlayerEntityState } from 'types';
+import { MediaPlayerEntityState, MediaPlayerState } from 'types';
 import styles from './ymp-media-title.scss';
 import { t } from 'i18n';
 
@@ -95,12 +95,21 @@ export class YmpMediaTitle extends LitElement {
     const containerClass = `container ${this._overflow ? 'move-on' : ''}`;
     const containerStyle = `animation-duration: ${this._overflow ?? 0}s;`;
 
+    let fullTitle: string;
+    if (!this.entityState) {
+      fullTitle = t('media.no_source');
+    } else if (this.entityState.state !== MediaPlayerState.PLAYING && this.entityState.state !== MediaPlayerState.PAUSED) {
+      fullTitle = t('media.no_played');
+    } else {
+      fullTitle = this._fullTitle || t('media.no_name');
+    }
+
     return html`
       <div class=${containerClass} style=${containerStyle}>
-        <span class="hold-line">${this._fullTitle || t('media.no_name')}</span>
+        <span class="hold-line">${fullTitle}</span>
         <div class="move-line-wrap">
           <div class="move-line">
-            <span>${this._fullTitle || t('media.no_name')}</span>
+            <span>${fullTitle}</span>
           </div>
         </div>
       </div>

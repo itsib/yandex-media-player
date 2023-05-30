@@ -46,17 +46,19 @@ export class YmpStationLogo extends LitElement {
 
     if (changedProps.has('hass') || changedProps.has('entityId')) {
       const icon = this.entityId ? this.hass.states[this.entityId]?.attributes?.icon : undefined;
-      if (icon !== this._icon) {
+      if (icon && icon !== this._icon) {
         this._icon = icon;
+      } else if (!icon) {
+        this._icon = 'yandex:alisa';
       }
     }
 
-    if ((changedProps.has('_icon') || changedProps.has('entityId')) && this.entityId) {
+    if (changedProps.has('_icon') || changedProps.has('entityId')) {
       window.loadCardHelpers().then(helpers => {
         this._iconElement = helpers.createHuiElement({
           type: 'icon',
           entity: this.entityId,
-          icon: this._icon || 'yandex:alisa',
+          icon: this._icon,
           hold_action: undefined,
           double_tap_action: undefined,
           tap_action: this.entityId ? { action: 'more-info' } : { action: 'none' },

@@ -117,7 +117,7 @@ export class MediaPlayerCard extends LitElement implements LovelaceCard {
 
     return html`
       <ha-card class="media-player-card">
-        <ymp-background .image=${this.hass.hassUrl(this._mediaImage)}></ymp-background>
+        <ymp-background .image="${this._mediaImage ? this.hass.hassUrl(this._mediaImage) : undefined}"></ymp-background>
         <div class="content">
           <div class="media-info">
             <ymp-station-logo .entityId=${this._entityId} .hass=${this.hass}></ymp-station-logo>
@@ -180,6 +180,6 @@ export class MediaPlayerCard extends LitElement implements LovelaceCard {
 (window as any).customCards.push({
   type: 'y-media-player',
   name: t('application.name'),
-  preview: false,
+  preview: true,
   description: t('application.description'),
 });

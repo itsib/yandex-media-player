@@ -14,8 +14,9 @@
     }
   },
   "media": {
-    "no_name": "The media track has no name",
-    "idle": "Nothing is played"
+    "no_source": "Select a Yandex station",
+    "no_played": "Nothing is being played now",
+    "no_name": "The media track has no name"
   },
   "tooltip": {
     "like": "I Like",
