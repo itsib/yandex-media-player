@@ -12,14 +12,13 @@
     "media",
     "custom-cards"
   ],
-  "main": "src/main.js",
-  "module": "src/main.js",
+  "module": "custom_components/yandex_media_player/lovelace/media-player.js",
   "repository": "git@github.com:itsib/yandex-media-player.git",
   "author": "Sergey <itsib.su@gmail.com>",
   "license": "MIT",
   "scripts": {
     "start": "rollup -c rollup.config.dev.js --watch",
-    "build": "npm run lint && rollup -c --environment BUILD:production",
+    "build": "rollup -c --environment BUILD:production",
     "lint": "eslint src/*.ts",
     "publish": "bump package.json package-lock.json custom_components/yandex_media_player/manifest.json --tag --push --all"
   },
