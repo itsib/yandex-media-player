@@ -20,8 +20,9 @@
     "start": "rollup -c rollup.config.dev.js --watch",
     "build": "rollup -c --environment BUILD:production",
     "lint": "eslint src/*.ts",
-    "bump": "bump package.json package-lock.json custom_components/yandex_media_player/manifest.json --tag --push --all",
-    "publish": "npm run lint && npm run build && npm run bump"
+    "add": "git add custom_components/yandex_media_player/lovelace/*",
+    "bump": "bump package.json package-lock.json custom_components/yandex_media_player/manifest.json -t -p -a",
+    "publish": "npm run lint && npm run build && npm run add && npm run bump"
   },
   "dependencies": {
     "node-vibrant": "^3.2.1-alpha.1"
