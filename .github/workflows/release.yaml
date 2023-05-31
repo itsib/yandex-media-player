@@ -29,18 +29,18 @@ jobs:
           npm run lint
           npm run build
           pwd
-      - name: Pack Release
-        run: |
-          mkdir ${{ env.release_name }}
-          cp -r custom_components ${{ env.release_name }}
-          cp hacs.json ${{ env.release_name }}
-          tar -cjvf ${{ env.release_name }}.tar.gz ${{ env.release_name }}/*
-          zip -r ${{ env.release_name }}.zip ${{ env.release_name }}/*
+#      - name: Pack Release
+#        run: |
+#          mkdir ${{ env.release_name }}
+#          cp -r custom_components ${{ env.release_name }}
+#          cp hacs.json ${{ env.release_name }}
+#          tar -cjvf ${{ env.release_name }}.tar.gz ${{ env.release_name }}/*
+#          zip -r ${{ env.release_name }}.zip ${{ env.release_name }}/*
       - name: Release
         uses: ncipollo/release-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          artifacts: "${{ env.release_name }}.zip,${{ env.release_name }}.tar.gz"
+          artifacts: "custom_components/yandex_media_player/lovelace/*"
           body: |
             Many different improvements. 
             And to be honest, I didn't figure out how 
