@@ -1,6 +1,6 @@
 {
   "name": "yandex-media-player",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Media Player for Yandex station and Home Assistant lovelace",
   "keywords": [
     "home-assistant",
