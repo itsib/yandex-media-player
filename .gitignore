@@ -9,3 +9,4 @@ node_modules/
 .mqtt/
 custom_components/yandex_media_player/lovelace/
 /dist/
+/artifacts/
