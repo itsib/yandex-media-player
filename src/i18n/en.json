@@ -1,6 +1,6 @@
 {
   "application": {
-    "name": "Yandex Media Player",
+    "name": "Media Player",
     "description": "Media player for Yandex stations. With additional station management capabilities."
   },
   "config": {
