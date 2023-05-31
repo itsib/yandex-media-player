@@ -1,0 +1,38 @@
+name: Release
+run-name: Release ${{ github.ref }}
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Commit
+        uses: actions/checkout@v3
+      - name: Setup NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: npm
+      - name: Install Dependency
+        run: npm ci
+      - name: Checking
+        run: npm run lint
+      - name: Build
+        run: npm run build
+      - name: Release
+        uses: actions/create-release@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            Many different improvements. 
+            And to be honest, I didn't figure out how 
+            to add text from github workflow here.
+          draft: false
+          prerelease: false

@@ -1,5 +1,7 @@
 # Yandex Media Player
 
+![build workflow](https://github.com/itsib/yandex-media-player/actions/workflows/build.yaml/badge.svg)
+
 Media player for Lovelace Home Assistant. Designed to work with Yandex stations.
 
 ### Demo:
