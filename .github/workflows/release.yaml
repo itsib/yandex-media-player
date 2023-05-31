@@ -7,7 +7,7 @@ on:
       - 'v*'
 
 env:
-  release_name: yandex-media-player-${{ github.ref }}
+  release_name: yandex-media-player
 
 jobs:
   release:
