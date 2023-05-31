@@ -13,6 +13,7 @@
     padding: 0 8px;
     display: flex;
     font-size: 10px;
+    color: var(--ymp-text-primary);
     opacity: 1;
     transition: opacity .2s ease-out;
     align-items: center;
@@ -20,7 +21,7 @@
     position: absolute;
 
     .pale {
-      opacity: .8;
+      opacity: .75;
     }
   }
 

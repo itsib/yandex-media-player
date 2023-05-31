@@ -3,12 +3,9 @@
   align-items: flex-end;
   justify-content: space-between;
 
-  .buttons-remote {
-
-  }
-
   .buttons-action {
     --mdc-icon-button-size: 32px;
     --mdc-icon-size: 18px;
+    display: none;
   }
 }

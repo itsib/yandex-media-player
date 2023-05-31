@@ -69,7 +69,7 @@ export class YmpVolumeControls extends LitElement {
 
     return html`
       <div class="mute">
-        <ymp-button .icon="${muted ? 'mdi:volume-off' : 'mdi:volume-high'}" .disabled="${disabled}" @click="${this._handleMuteChange}"></ymp-button>
+        <ymp-button .icon="${muted ? 'yandex:volume-off' : 'yandex:volume-on'}" .disabled="${disabled}" @click="${this._handleMuteChange}"></ymp-button>
       </div>
       <div class="volume">
         <div class="slider-wrap">

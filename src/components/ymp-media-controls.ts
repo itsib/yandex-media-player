@@ -56,19 +56,19 @@ export class YmpMediaControls extends LitElement {
   render(): TemplateResult {
     return html`
       <div class="buttons-remote">
-        <ymp-button icon="mdi:skip-previous" @click="${this._handlePrev}"></ymp-button>
+        <ymp-button icon="yandex:skip-prev" @click="${this._handlePrev}"></ymp-button>
 
         ${this._innerState === MediaPlayerState.PAUSED
-          ? html` <ymp-button icon="mdi:play" style="--mdc-icon-size: 34px;" @click="${this._handlePlay}"></ymp-button> `
-          : html` <ymp-button icon="mdi:pause" style="--mdc-icon-size: 34px;" @click="${this._handlePaused}"></ymp-button> `}
+          ? html` <ymp-button icon="yandex:play" style="--mdc-icon-size: 34px;" @click="${this._handlePlay}"></ymp-button> `
+          : html` <ymp-button icon="yandex:pause" style="--mdc-icon-size: 34px;" @click="${this._handlePaused}"></ymp-button> `}
 
-        <ymp-button icon="mdi:skip-next" @click="${this._handleNext}"></ymp-button>
+        <ymp-button icon="yandex:skip-next" @click="${this._handleNext}"></ymp-button>
       </div>
 
       <div class="buttons-action">
-        <ymp-button icon="mdi:thumb-up" .label="${t('tooltip.like')}" @click="${this._handleLike}"></ymp-button>
-        <ymp-button icon="mdi:thumb-down" .label="${t('tooltip.dislike')}" @click="${this._handleDisLike}"></ymp-button>
-        <ymp-button icon="mdi:chat" .label="${t('tooltip.say_track_name')}" @click="${this._toggleSayTrack}"></ymp-button>
+        <ymp-button icon="yandex:heart" .label="${t('tooltip.like')}" @click="${this._handleLike}"></ymp-button>
+        <ymp-button icon="yandex:heart-outline" .label="${t('tooltip.dislike')}" @click="${this._handleDisLike}"></ymp-button>
+        <ymp-button icon="yandex:dj-mode-on" .label="${t('tooltip.say_track_name')}" @click="${this._toggleSayTrack}"></ymp-button>
       </div>
     `;
   }
