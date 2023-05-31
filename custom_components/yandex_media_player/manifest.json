@@ -1,5 +1,5 @@
 {
-  "name": "Yandex Player",
+  "name": "Media Player",
   "codeowners": [
     "@itsib"
   ],
@@ -15,5 +15,5 @@
     "http",
     "lovelace"
   ],
-  "version": "0.1.1"
+  "version": "0.1.2"
 }

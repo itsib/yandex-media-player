@@ -10,7 +10,7 @@ from homeassistant.helpers.integration_platform import (
     async_process_integration_platform_for_component,
 )
 
-from .const import DOMAIN
+from .const import DOMAIN, NAME
 
 LOGGER = logging.getLogger(__name__)
 
@@ -37,7 +37,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up from a config entry."""
     await async_process_integration_platform_for_component(hass, DOMAIN)
 
-    hass.data[DOMAIN] = {'name': 'Yandex Media Player'}
+    hass.data[DOMAIN] = {'name': NAME}
     await hass.config_entries.async_forward_entry_setups(entry, [])
     return True
 
