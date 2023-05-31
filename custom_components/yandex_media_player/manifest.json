@@ -1,4 +1,5 @@
 {
+  "name": "Yandex Player",
   "codeowners": [
     "@itsib"
   ],
@@ -9,11 +10,10 @@
   "loggers": [
     "yandex_media_player"
   ],
-  "name": "Yandex Media Player",
   "requirements": [],
   "dependencies": [
     "http",
     "lovelace"
   ],
-  "version": "0.0.10"
+  "version": "0.1.0"
 }
