@@ -53,7 +53,7 @@ export class MediaPlayerCard extends LitElement implements LovelaceCard {
 
   public static getStubConfig(): Omit<MediaPlayerCardConfig, 'type'> {
     return {
-      color: 'default',
+      color: 'accent',
       devices: [],
     };
   }

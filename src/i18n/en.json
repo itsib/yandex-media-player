@@ -5,16 +5,16 @@
   },
   "config": {
     "color": {
-      "label": "Accent color",
-      "helper": "The color of the volume setting and the progress bar.",
+      "label": "Color of some interface elements",
+      "helper": "The color of the volume setting and the progress bar. You can customize these colors in your profile.",
       "options": {
-        "default": "As in Home Assistant",
-        "orange": "Orange \u00A0 \u00A0 \uD83C\uDF4A"
+        "accent": "Accent Color",
+        "primary": "Primary Color"
       }
     },
     "devices": {
       "label": "Choose Device",
-      "helper": "Devices that the media player will control."
+      "helper": "Devices that the media player will control. The equalizers of these devices will be connected automatically."
     }
   },
   "media": {

@@ -37,7 +37,7 @@
     .bar {
       height: 100%;
       width: 0;
-      background-color: var(--ymp-accent-color);
+      background-color: var(--ymp-interface-color);
       transition: width .2s ease-out, background-color .2s ease-out;
       position: relative;
       z-index: 2;

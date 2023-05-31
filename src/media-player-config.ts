@@ -7,7 +7,7 @@ import { t } from 'i18n';
 const SCHEMA: HaFormSchema[] = [
   {
     name: 'color',
-    default: 'default',
+    default: 'accent',
     required: true,
     selector: {
       select: {
@@ -15,8 +15,8 @@ const SCHEMA: HaFormSchema[] = [
         custom_value: false,
         mode: 'dropdown',
         options: [
-          { value: 'default', label: 'options.primary' },
-          { value: 'orange', label: 'options.orange' },
+          { value: 'accent', label: 'options.accent' },
+          { value: 'primary', label: 'options.primary' },
         ],
         translation_key: 'config.color',
       },
