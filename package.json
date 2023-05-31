@@ -1,7 +1,7 @@
 {
-  "name": "y-media-player",
+  "name": "yandex-media-player",
   "version": "0.0.7",
-  "description": "Media Player for Yandex station and home assistant lovelace",
+  "description": "Media Player for Yandex station and Home Assistant lovelace",
   "keywords": [
     "home-assistant",
     "homeassistant",
@@ -14,14 +14,14 @@
   ],
   "main": "src/main.js",
   "module": "src/main.js",
-  "repository": "git@github.com:itsib/y-media-player.git",
+  "repository": "git@github.com:itsib/yandex-media-player.git",
   "author": "Sergey <itsib.su@gmail.com>",
   "license": "MIT",
   "scripts": {
     "start": "rollup -c rollup.config.dev.js --watch",
     "build": "npm run lint && rollup -c --environment BUILD:production",
     "lint": "eslint src/*.ts",
-    "publish": "bump package.json package-lock.json custom_components/y_media_player/manifest.json --tag --push --all"
+    "publish": "bump package.json package-lock.json custom_components/yandex_media_player/manifest.json --tag --push --all"
   },
   "dependencies": {
     "node-vibrant": "^3.2.1-alpha.1"
