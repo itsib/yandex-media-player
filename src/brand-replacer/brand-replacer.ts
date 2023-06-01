@@ -6,10 +6,11 @@ function sleep(ms: number): Promise<void> {
  * Retries the function that returns the promise until the promise successfully resolves up to n retries
  * @param fn function to retry
  * @param attempt how many times to retry
- * @param wait Wait between retries in ms
  */
-function retry<T>(fn: () => T, attempt = 3, wait = 50): Promise<T> {
+function retry<T>(fn: () => T, attempt = 3): Promise<T> {
+  const increase = 50;
   let completed = false;
+  let timeout = 50;
 
   return new Promise<T>(async (resolve, reject) => {
     while (true) {
@@ -32,7 +33,8 @@ function retry<T>(fn: () => T, attempt = 3, wait = 50): Promise<T> {
         }
         attempt--;
       }
-      await sleep(wait);
+      await sleep(timeout);
+      timeout += increase;
     }
   });
 }
@@ -84,30 +86,27 @@ export class BrandReplacer {
     if (element.shadowRoot) {
       return Promise.resolve(element.shadowRoot);
     }
-    return retry<ShadowRoot>(
-      () => {
-        if (element.shadowRoot) {
-          return element.shadowRoot;
-        }
-        throw new Error(`No shadow root found`);
-      },
-      10,
-      50,
-    );
+    return retry<ShadowRoot>(() => {
+      if (element.shadowRoot) {
+        return element.shadowRoot;
+      }
+      throw new Error(`No shadow root found`);
+    }, 10);
   }
 
   private static getElement(rootElement: HTMLElement | ShadowRoot, selector: string): Promise<HTMLElement> {
-    return retry<HTMLElement>(
-      () => {
-        const element = rootElement.querySelector(selector) as null | HTMLElement;
-        if (element) {
-          return element;
-        }
-        throw new Error(`No "${selector}" element found`);
-      },
-      5,
-      50,
-    );
+    const element = rootElement.querySelector(selector) as null | HTMLElement;
+    if (element) {
+      return Promise.resolve(element);
+    }
+
+    return retry<HTMLElement>(() => {
+      const element = rootElement.querySelector(selector) as null | HTMLElement;
+      if (element) {
+        return element;
+      }
+      throw new Error(`No "${selector}" element found`);
+    }, 10);
   }
 
   private static findNode(nodes: NodeList, nodeName: string): HTMLElement | undefined {
@@ -140,15 +139,14 @@ export class BrandReplacer {
     }
     this._initialized = true;
 
-    const haElement = document.body.querySelector('home-assistant');
-    if (!haElement || !haElement.shadowRoot) {
-      throw new Error('No <home-assistant /> element found');
-    }
+    BrandReplacer.getElement(document.body, 'home-assistant')
+      .then(element => BrandReplacer.getShadowRoot(element))
+      .then(shadowRoot => {
+        const observer = new MutationObserver(this._homeAssistantMutationCallback.bind(this));
+        observer.observe(shadowRoot, { subtree: true, childList: true });
 
-    const observer = new MutationObserver(this._homeAssistantMutationCallback.bind(this));
-    observer.observe(haElement.shadowRoot, { subtree: true, childList: true });
-
-    BrandReplacer.getElement(haElement.shadowRoot, 'home-assistant-main')
+        return BrandReplacer.getElement(shadowRoot, 'home-assistant-main');
+      })
       .then(main => {
         if (!main.shadowRoot) {
           throw new Error('No shadow root in <home-assistant-main />');
@@ -165,9 +163,7 @@ export class BrandReplacer {
         const observer = new MutationObserver(this._drawerMutationCallback.bind(this));
         observer.observe(drawer, { subtree: true, childList: true });
       })
-      .catch(error => {
-        console.error(error);
-      });
+      .catch(console.error);
   }
 
   private _drawerMutationCallback(mutations: MutationRecord[]): void {
@@ -239,9 +235,7 @@ export class BrandReplacer {
           }
         }
       })
-      .catch(error => {
-        console.error(error);
-      });
+      .catch(console.error);
   }
 
   private _handleDialogAddIntegration(): void {
@@ -260,13 +254,16 @@ export class BrandReplacer {
   }
 
   private _replaceImageIntegrationCard(card: HTMLElement, domain: string): void {
-    const imageSrc = this._watchedImages[domain];
-    const haCard = card.shadowRoot?.querySelector('ha-card');
-    const haCardHeader = haCard?.querySelector('ha-integration-header');
-    const image = haCardHeader?.shadowRoot?.querySelector('.header')?.querySelector('img') as HTMLImageElement | null;
-    if (image && imageSrc) {
-      image.src = imageSrc;
-    }
+    BrandReplacer.getShadowRoot(card)
+      .then(shadowRoot => BrandReplacer.getElement(shadowRoot, 'ha-card'))
+      .then(haCard => BrandReplacer.getElement(haCard, 'ha-integration-header'))
+      .then(haCardHeader => BrandReplacer.getShadowRoot(haCardHeader))
+      .then(shadowRoot => BrandReplacer.getElement(shadowRoot, '.header'))
+      .then(header => BrandReplacer.getElement(header, 'img'))
+      .then(image => {
+        (image as HTMLImageElement).src = this._watchedImages[domain];
+      })
+      .catch(console.error);
   }
 
   private _replaceImageDialogAddIntegration(item: HTMLElement, domain: string): void {
