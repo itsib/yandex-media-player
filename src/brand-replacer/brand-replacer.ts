@@ -37,7 +37,12 @@ function retry<T>(fn: () => T, attempt = 3, wait = 50): Promise<T> {
   });
 }
 
-export class ImageWatchdog {
+export class BrandReplacer {
+  /**
+   * Replacer has been initialized
+   * @private
+   */
+  private _initialized = false;
   /**
    * Images that need to be replaced
    * @private
@@ -59,17 +64,17 @@ export class ImageWatchdog {
    */
   private _dialogIntegrationListObserver?: MutationObserver;
 
-  private static INSTANCE?: ImageWatchdog;
+  private static INSTANCE?: BrandReplacer;
 
   static insert(domain: string, image: string): void {
     if (!window || !document || !('MutationObserver' in window)) {
       console.warn('The runtime environment is not supported.');
       return;
     }
-    let instance = ImageWatchdog.INSTANCE;
+    let instance = BrandReplacer.INSTANCE;
     if (!instance) {
-      instance = new ImageWatchdog();
-      ImageWatchdog.INSTANCE = instance;
+      instance = new BrandReplacer();
+      BrandReplacer.INSTANCE = instance;
     }
 
     instance._watch(domain, image);
@@ -116,14 +121,25 @@ export class ImageWatchdog {
 
   private constructor() {
     this._watchedImages = {};
-    this._init();
   }
 
   private _watch(domain: string, image: string): void {
     this._watchedImages[domain] = image;
+
+    if (this._initialized) {
+      this._handleIntegrationsSettingsPage();
+      this._handleIntegrationsSettingsPage();
+    } else {
+      this._init();
+    }
   }
 
   private _init(): void {
+    if (this._initialized) {
+      return;
+    }
+    this._initialized = true;
+
     const haElement = document.body.querySelector('home-assistant');
     if (!haElement || !haElement.shadowRoot) {
       throw new Error('No <home-assistant /> element found');
@@ -132,14 +148,20 @@ export class ImageWatchdog {
     const observer = new MutationObserver(this._homeAssistantMutationCallback.bind(this));
     observer.observe(haElement.shadowRoot, { subtree: true, childList: true });
 
-    ImageWatchdog.getElement(haElement.shadowRoot, 'home-assistant-main')
+    BrandReplacer.getElement(haElement.shadowRoot, 'home-assistant-main')
       .then(main => {
         if (!main.shadowRoot) {
           throw new Error('No shadow root in <home-assistant-main />');
         }
-        return ImageWatchdog.getElement(main.shadowRoot, 'ha-drawer');
+        return BrandReplacer.getElement(main.shadowRoot, 'ha-drawer');
       })
       .then(drawer => {
+        const configElement = drawer.querySelector('ha-config-integrations');
+        if (configElement) {
+          this._configIntegrations = configElement as HTMLElement;
+          this._handleIntegrationsSettingsPage();
+        }
+
         const observer = new MutationObserver(this._drawerMutationCallback.bind(this));
         observer.observe(drawer, { subtree: true, childList: true });
       })
@@ -151,7 +173,7 @@ export class ImageWatchdog {
   private _drawerMutationCallback(mutations: MutationRecord[]): void {
     for (let i = mutations.length - 1; i >= 0; i--) {
       const mutation = mutations[i];
-      const configIntegrations = ImageWatchdog.findNode(mutation.addedNodes, 'HA-CONFIG-INTEGRATIONS');
+      const configIntegrations = BrandReplacer.findNode(mutation.addedNodes, 'HA-CONFIG-INTEGRATIONS');
       if (configIntegrations) {
         this._configIntegrations = configIntegrations;
 
@@ -159,7 +181,7 @@ export class ImageWatchdog {
         continue;
       }
 
-      if (ImageWatchdog.findNode(mutation.removedNodes, 'HA-CONFIG-INTEGRATIONS')) {
+      if (BrandReplacer.findNode(mutation.removedNodes, 'HA-CONFIG-INTEGRATIONS')) {
         this._configIntegrations = undefined;
       }
     }
@@ -168,7 +190,7 @@ export class ImageWatchdog {
   private _homeAssistantMutationCallback(mutations: MutationRecord[]): void {
     for (let i = mutations.length - 1; i >= 0; i--) {
       const mutation = mutations[i];
-      const dialog = ImageWatchdog.findNode(mutation.addedNodes, 'DIALOG-ADD-INTEGRATION');
+      const dialog = BrandReplacer.findNode(mutation.addedNodes, 'DIALOG-ADD-INTEGRATION');
 
       if (dialog) {
         this._dialogAddIntegration = dialog;
@@ -176,7 +198,7 @@ export class ImageWatchdog {
         continue;
       }
 
-      if (ImageWatchdog.findNode(mutation.removedNodes, 'DIALOG-ADD-INTEGRATION')) {
+      if (BrandReplacer.findNode(mutation.removedNodes, 'DIALOG-ADD-INTEGRATION')) {
         this._dialogAddIntegration = undefined;
         if (this._dialogIntegrationListObserver) {
           this._dialogIntegrationListObserver.disconnect();
@@ -189,7 +211,7 @@ export class ImageWatchdog {
   private _dialogIntegrationListMutationCallback(mutations: MutationRecord[]): void {
     for (let i = 0; i < mutations.length; i++) {
       const mutation = mutations[i];
-      const item = ImageWatchdog.findNode(mutation.addedNodes, 'HA-INTEGRATION-LIST-ITEM');
+      const item = BrandReplacer.findNode(mutation.addedNodes, 'HA-INTEGRATION-LIST-ITEM');
       if (item && item['__integration']?.domain in this._watchedImages) {
         this._replaceImageDialogAddIntegration(item, item['__integration'].domain);
       }
@@ -198,13 +220,12 @@ export class ImageWatchdog {
 
   private _handleIntegrationsSettingsPage(): void {
     if (!this._configIntegrations) {
-      console.warn('Config integrations container is not defined');
       return;
     }
 
-    ImageWatchdog.getShadowRoot(this._configIntegrations)
-      .then(shadowRoot => ImageWatchdog.getElement(shadowRoot, 'hass-tabs-subpage'))
-      .then(tabsSubpage => ImageWatchdog.getElement(tabsSubpage, '.container'))
+    BrandReplacer.getShadowRoot(this._configIntegrations)
+      .then(shadowRoot => BrandReplacer.getElement(shadowRoot, 'hass-tabs-subpage'))
+      .then(tabsSubpage => BrandReplacer.getElement(tabsSubpage, '.container'))
       .then(container => {
         if (!container || !container.children.length) {
           console.warn('Container is empty');
@@ -225,13 +246,12 @@ export class ImageWatchdog {
 
   private _handleDialogAddIntegration(): void {
     if (!this._dialogAddIntegration) {
-      console.warn('Dialog add integration container is not defined');
       return;
     }
 
-    ImageWatchdog.getShadowRoot(this._dialogAddIntegration)
-      .then(shadowRoot => ImageWatchdog.getElement(shadowRoot, 'ha-dialog'))
-      .then(haDialog => ImageWatchdog.getElement(haDialog, 'mwc-list'))
+    BrandReplacer.getShadowRoot(this._dialogAddIntegration)
+      .then(shadowRoot => BrandReplacer.getElement(shadowRoot, 'ha-dialog'))
+      .then(haDialog => BrandReplacer.getElement(haDialog, 'mwc-list'))
       .then(list => {
         this._dialogIntegrationListObserver = new MutationObserver(this._dialogIntegrationListMutationCallback.bind(this));
         this._dialogIntegrationListObserver.observe(list, { subtree: true, childList: true });
@@ -252,15 +272,11 @@ export class ImageWatchdog {
   private _replaceImageDialogAddIntegration(item: HTMLElement, domain: string): void {
     const imageSrc = this._watchedImages[domain];
 
-    ImageWatchdog.getShadowRoot(item)
-      .then(root => ImageWatchdog.getElement(root, 'span > img'))
+    BrandReplacer.getShadowRoot(item)
+      .then(root => BrandReplacer.getElement(root, 'span > img'))
       .then(image => {
         (image as HTMLImageElement).src = imageSrc;
       })
       .catch(console.error);
   }
-}
-
-if (window) {
-  ImageWatchdog.insert('yandex_media_player', '/yandex-media-player/logo.png');
 }
