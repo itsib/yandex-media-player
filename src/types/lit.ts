@@ -8,8 +8,6 @@ export interface PropertyValueMap<T> extends Map<PropertyKey, unknown> {
   delete<K extends keyof T>(k: K): boolean;
 }
 
-export type ChangedProperties = { [propertyName: string]: any };
-
 export type PropertyValues<T = any> = T extends object ? PropertyValueMap<T> : Map<PropertyKey, unknown>;
 
 export const HTML_RESULT = 1;
