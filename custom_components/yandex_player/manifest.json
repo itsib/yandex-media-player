@@ -5,15 +5,15 @@
   ],
   "config_flow": true,
   "documentation": "https://github.com/itsib/yandex-media-player",
-  "domain": "yandex_music_browser",
+  "domain": "yandex_player",
   "iot_class": "cloud_polling",
   "loggers": [
-    "yandex_music_browser"
+    "yandex_player"
   ],
   "requirements": [],
   "dependencies": [
     "http",
     "lovelace"
   ],
-  "version": "1.0.0"
+  "version": "1.0.1"
 }

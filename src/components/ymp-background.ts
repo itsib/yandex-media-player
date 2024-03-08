@@ -57,7 +57,7 @@ export class YmpBackground extends LitElement {
    */
   private _resizeObserver?: ResizeObserver;
 
-  private _fallbackImage = '/yandex-music-browser/no-image.png';
+  private _fallbackImage = '/yandex-player/no-image.png';
 
   static styles = styles;
 

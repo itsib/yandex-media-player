@@ -7,7 +7,7 @@ import { DEMO_STATE } from './utils/demo-state';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'yandex-music-browser': MediaPlayerCard;
+    'yandex-media-player': MediaPlayerCard;
   }
 }
 
@@ -183,11 +183,11 @@ export class MediaPlayerCard extends LitElement implements LovelaceCard {
   }
 }
 
-(window as any).customElements.define('yandex-music-browser', MediaPlayerCard);
+(window as any).customElements.define('yandex-media-player', MediaPlayerCard);
 
 (window as any).customCards = (window as any).customCards || [];
 (window as any).customCards.push({
-  type: 'yandex-music-browser',
+  type: 'yandex-media-player',
   name: t('application.name'),
   preview: true,
   description: t('application.description'),

@@ -16,8 +16,8 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     """Register media player resources for lovelace"""
 
     card_file_path = os.path.dirname(os.path.realpath(__file__)) + "/lovelace"
-    hass.http.register_static_path("/yandex-music-browser", card_file_path, False)
-    add_extra_js_url(hass, "/yandex-music-browser/media-player.js?cache=" + str(time.time()), es5=False)
+    hass.http.register_static_path("/yandex-player", card_file_path, False)
+    add_extra_js_url(hass, "/yandex-player/index.js?cache=" + str(time.time()), es5=False)
 
     # Async init entry
     hass.async_create_task(

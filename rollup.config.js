@@ -6,36 +6,45 @@ import terser from '@rollup/plugin-terser';
 import json from '@rollup/plugin-json';
 import copy from 'rollup-plugin-copy';
 import clean from 'rollup-plugin-delete';
-import litScss from './rollup-plugins/lit-scss.js';
+import litScss from '../../libs/lit-scss.js';
 
-const plugins = [
-  clean({ targets: 'custom_components/yandex_music_browser/lovelace/*' }),
-  litScss({
-    minify: true,
-    options: { loadPaths: ['node_modules'] },
-  }),
-  resolve({ browser: true }),
-  commonjs(),
-  typescript(),
-  json(),
-  babel({
-    babelHelpers: 'bundled',
-    exclude: 'node_modules/**',
-  }),
-  terser(),
-  copy({
-    targets: [{ src: 'src/images/**/*', dest: 'custom_components/yandex_music_browser/lovelace' }],
-  }),
-];
+export default argv => {
+  const isProd = argv.environment === 'production';
 
-export default [
-  {
-    input: 'src/media-player.ts',
+  /**
+   * @type {import('rollup').RollupOptions}
+   */
+  return {
+    input: `src/index.ts`,
     output: {
-      dir: 'custom_components/yandex_music_browser/lovelace',
+      dir: 'custom_components/yandex_player/lovelace',
       format: 'es',
-      // inlineDynamicImports: true,
     },
-    plugins: [...plugins],
-  },
-];
+    plugins: [
+      clean({ targets: [`custom_components/yandex_player/lovelace/*`] }),
+      litScss({
+        minify: true,
+        options: { loadPaths: ['node_modules'] },
+      }),
+      resolve({ browser: true }),
+      commonjs(),
+      typescript({ tsconfig: 'tsconfig.json' }),
+      json(),
+      babel({
+        babelHelpers: 'bundled',
+        exclude: 'node_modules/**',
+      }),
+      ...(isProd ? [terser()] : []),
+      copy({
+        hook: 'closeBundle',
+        verbose: false,
+        targets: [
+          {
+            src: `src/images/**/*`,
+            dest: 'custom_components/yandex_player/lovelace',
+          },
+        ],
+      }),
+    ],
+  }
+}
